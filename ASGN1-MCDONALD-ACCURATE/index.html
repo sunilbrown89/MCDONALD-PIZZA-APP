@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgba(252, 154, 6, 0.925);
+         /*background-image:url("https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/mcdonalds-pti-1617962583.jpg"); */
+        
+            
+        }
+        #food{
+            background-color:green;
+            width: 150px;
+            height: 50px;
+            font-weight: bold;
+            border-radius:10px;
+            padding:15px;
+            margin-top:30px;
+        }
+        button{
+            width: 150px;
+            height: 50px;
+            font-weight: bold;
+            border-radius:10px;
+            background-color:red;
+            margin-left: 10px;
+        }
+        #displayFood{
+            background-color: #f62a29;
+            color: white;
+            border-radius: 5px;
+            width: 30%;
+            margin: auto;
+            text-align: center;
+            margin-top:-70px;
+            font-size:30px;
+            padding-bottom: 20px;
+             /* box-shadow:rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset; */
+             /* box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px; */
+             box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+            }
+        #orderId{
+            display:flex;
+            justify-content:flex-end;
+            margin-right: 40px;
+            margin-top:-100px;
+        }
+        img{
+            width: 100%;
+            border-radius: 10px;
+
+        }
+        p{
+            font-size:40px;
+            font-weight: 800;
+        }
+
+    </style>
+</head>
+<body>
+    <select id="food">
+        <option value="Burger">Burger</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Chicken Wings">Chicken Wings</option>
+        <option value="Fries">Fries</option>
+    </select>
+    <button onclick="orderFood()">Order Food</button>
+    <div id="orderId">
+
+    </div>
+    <div id="displayFood">
+
+    </div>
+</body>
+</html>
+<script>
+
+    let counter = 0;
+    function orderFood() {
+        let display = document.getElementById("displayFood");
+        display.innerHTML = null;
+        let orderId = document.getElementById("orderId");
+        orderId.innerHTML = null;
+
+        let food = document.getElementById("food").value;
+        let store = "open";
+        let time = Math.random()*5000;
+
+        if(counter >= 10) {
+            store = "close";
+        }
+
+
+        let foodProm = new Promise(function(resolve, reject) {
+            if(store == "close"){
+                reject("McDonald is Closed")
+            }else{
+                setTimeout(function(){
+                    resolve(food);
+                }, time)
+            }
+        })
+
+
+        let img = document.createElement("img");
+        let desc = document.createElement("h2");
+        let orderid = document.createElement("p")
+        let id = Math.floor(Math.random()*200 + 1);
+        foodProm.then(function(res){
+            switch(res){
+                case "Burger":
+                    img.src="https://media-cldnry.s-nbcnews.com/image/upload/newscms/2019_21/2870431/190524-classic-american-cheeseburger-ew-207p.jpg";
+                    desc.innerText = `Your ${food} is ready! Taste & Enjoy!`;
+                    orderid.innerText = `Order id is #${id}`;
+                    display.append(img, desc);
+                    orderId.append(orderid);
+                    break;
+                
+                case "Pizza":
+                    img.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXKkZm55l0PW0b7Rar_K9iyB0OJNqkFiXGUg&usqp=CAU";
+                    desc.innerText = `Your ${food} is ready! Taste & Enjoy!`;
+                    orderid.innerText = `Order id is #${id}`;
+                    display.append(img, desc);
+                    orderId.append(orderid);
+                    break;
+                
+                case "Chicken Wings":
+                    img.src="http://images.summitmedia-digital.com/spotph/images/2018/04/16/spicychickenmcdo.jpg";
+                    desc.innerText = `Your ${food} is ready! Taste & Enjoy!`;
+                    orderid.innerText = `Order id is #${id}`;
+                    display.append(img, desc);
+                    orderId.append(orderid);
+                    break;
+
+                case "Fries":
+                    img.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM0wyzPHYNMMOPPoxrlOEmqc8M-_zTp90o9v7oLXZJByzIHj7ZrVkocX_LcXHMrfZ76xo&usqp=CAU";
+                    desc.innerText = `Your ${food} is ready! Taste & Enjoy!`;
+                    orderid.innerText = `Order id is #${id}`;
+                    display.append(img, desc);
+                    orderId.append(orderid);
+                    break;
+            }
+        })
+
+        foodProm.catch(function(error) {
+            img.src = "https://th.bing.com/th/id/OIP.8rbNrekVky9iCPAD3HIk3wHaEK?w=321&h=181&c=7&r=0&o=5&dpr=1.5&pid=1.7";
+            desc.innerText = error;
+            display.append(img, desc);
+        })
+        counter++;
+    }
+</script>
